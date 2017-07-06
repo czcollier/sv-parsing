@@ -1,7 +1,7 @@
-package com.skyhookwireless.parsing.eval
+package net.xorf.svparser.eval
 
-import java.net.{URL, URLClassLoader}
 import java.io.{File => JFile}
+import java.net.{URL, URLClassLoader}
 /**
   * Created by ccollier on 11/24/15.
   */

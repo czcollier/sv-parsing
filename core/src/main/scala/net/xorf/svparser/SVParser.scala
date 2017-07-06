@@ -1,6 +1,6 @@
-package com.skyhookwireless.parsing
+package net.xorf.svparser
 
-import ParserDerivation._
+import net.xorf.svparser.ParserDerivation._
 import shapeless._
 
 import scala.util.Try
@@ -15,7 +15,7 @@ object ParserDSL {
   }
 
   class ParserDef[LType, PType <: HList](val p: PType)(implicit pll: ParserDerivation[PType, LType]) {
-    def withSource[IType](x: RecordSource[IType]) = new SkyParser(p, x)
+    def withSource[IType](x: RecordSource[IType]) = new SVParser(p, x)
   }
 }
 
@@ -47,7 +47,7 @@ trait PParser[IType] {
   def parse(rec: IType): Try[Any]
 }
 
-class SkyParser[LType, PType <: HList, IType](fieldParsers: PType, rpp: RecordSource[IType])
+class SVParser[LType, PType <: HList, IType](fieldParsers: PType, rpp: RecordSource[IType])
     (implicit pll: ParserDerivation[PType, LType]) extends PParser[IType] {
 
   val rc = pll.derive(fieldParsers)
@@ -63,7 +63,7 @@ class SkyParser[LType, PType <: HList, IType](fieldParsers: PType, rpp: RecordSo
 
 
 class MappedSkyParser[LType, PType <: HList, IType, OType](
-    sp: SkyParser[LType, PType, IType],
+    sp: SVParser[LType, PType, IType],
     transform: (LType => OType)) extends PParser[IType] {
 
   override def parse(line: IType): Try[OType] = sp.parse(line).map(transform)

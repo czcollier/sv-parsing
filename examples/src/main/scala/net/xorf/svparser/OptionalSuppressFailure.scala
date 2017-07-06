@@ -1,12 +1,11 @@
-package com.skyhookwireless.parsing
+package net.xorf.svparser
 
 import shapeless._
 
 object OptionalSuppressFailure extends App {
 
-  import ParserDerivation._
-  import StandardFormats._
-  import ParserDSL._
+  import net.xorf.svparser.ParserDSL._
+  import net.xorf.svparser.StandardFormats._
 
   case class MyRow(
     x: Double,

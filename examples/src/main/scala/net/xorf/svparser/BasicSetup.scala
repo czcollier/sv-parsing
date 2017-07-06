@@ -1,4 +1,4 @@
-package com.skyhookwireless.parsing
+package net.xorf.svparser
 
 import org.joda.time.DateTime
 import shapeless._
@@ -11,19 +11,31 @@ object BasicSetup extends {
    *********************************/
 
   //import necessary symbols
-  import ParserDerivation._
-  import StandardFormats._
   import ParserDSL._
+  import StandardFormats._
 
   //create a class to represent a row in your CSV.
+  //This could be a business object or an intermediate
+  //type that translates between the CSV data and
+  //eventual business objects
   case class MyRow(
     TS1: DateTime,
     TS2: DateTime,
     TS3: DateTime,
-    lat: Option[Double],
-    lon: Double,
+    D1: Option[Double],
+    D2: Double,
     name: String
   )
+
+  //here's a business object that our CSV rows eventually
+  //wind up populating.
+  case class MyClass(
+    customerID: String,
+    transactionTimestamp: DateTime,
+    processTimestamp: DateTime,
+    confidence: Option[Double] = None,
+    debugMode: Option[String] = None,
+    otherAttributes: Option[String] = None)
 
   //next define the parsers to be used for each field.  Types must match case class
   //or parser creation code will not compile.  We try to make the compiler do as
@@ -55,10 +67,10 @@ object BasicSetup extends {
   //adding a transform to achieve this without extra code outside the parser
   //definition:
   val mappedParser = myParser withTransform { mr: MyRow =>
-    new LocationSample(
-      partnerID = "MyPartner",
-      locationTS = mr.TS1,
-      processDate = mr.TS3,
-      userID = mr.name)
+    new MyClass(
+      customerID = mr.name,
+      transactionTimestamp = mr.TS1,
+      processTimestamp = mr.TS3,
+      confidence = mr.D1)
   }
 }

@@ -1,4 +1,4 @@
-package com.skyhookwireless.parsing
+package net.xorf.svparser
 
 object BasicUsage extends App {
 

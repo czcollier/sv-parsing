@@ -1,9 +1,9 @@
-package com.skyhookwireless.parsing
+package net.xorf.svparser
 
-import purecsv.safe.converter.{StringConverter, RawFieldsConverter}
+import purecsv.safe.converter.{RawFieldsConverter, StringConverter}
 import shapeless._
+
 import scala.util.{Failure, Success, Try}
-import annotation.implicitNotFound
 
 object ParserDerivation {
   def illegalConversion(what: String, typ: String) = {

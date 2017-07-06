@@ -1,4 +1,4 @@
-package com.skyhookwireless.parsing
+package net.xorf.svparser
 
 import shapeless._
 
@@ -30,8 +30,7 @@ object HListUnapply {
   trait UnapplyLeft[L <: HList] extends DepFn1[L]
 
   trait LPUnapplyLeft {
-    import ops.hlist.Last
-    import shapeless.ops.hlist.Init
+    import ops.hlist.{Init, Last}
     type Aux[L <: HList, Out0] = UnapplyLeft[L] { type Out = Out0 }
     implicit def unapplyHCons[L <: HList, I <: HList, F]
     (implicit

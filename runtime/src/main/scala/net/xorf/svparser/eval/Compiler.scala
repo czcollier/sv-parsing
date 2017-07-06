@@ -1,4 +1,4 @@
-package com.skyhookwireless.parsing.eval
+package net.xorf.svparser.eval
 
 import java.io._
 import java.math.BigInteger
@@ -6,8 +6,8 @@ import java.security.MessageDigest
 import java.util.jar.{JarEntry, JarOutputStream}
 
 import scala.collection.mutable
-import scala.tools.nsc.interpreter.AbstractFileClassLoader
 import scala.reflect.io.{Directory, PlainFile, VirtualDirectory}
+import scala.tools.nsc.interpreter.AbstractFileClassLoader
 import scala.tools.nsc.io._
 import scala.tools.nsc.util.BatchSourceFile
 import scala.tools.nsc.{Global, Settings}

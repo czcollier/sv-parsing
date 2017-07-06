@@ -1,8 +1,8 @@
-package com.skyhookwireless.parsing.eval
+package net.xorf.svparser.eval
 
 import java.io.{File => JFile}
 
-import com.skyhookwireless.parsing.PParser
+import net.xorf.svparser.PParser
 
 import scala.io.Source
 

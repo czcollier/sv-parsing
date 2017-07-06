@@ -1,4 +1,4 @@
-package com.skyhookwireless.parsing
+package net.xorf.svparser
 
 import org.joda.time.DateTime
 import org.joda.time.format.{DateTimeFormat, ISODateTimeFormat}
