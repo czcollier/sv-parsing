@@ -3,7 +3,7 @@ package net.xorf.svparser
 import shapeless._
 
 object HListUnapply {
-
+/*
   trait UnapplyRight[L <: HList] extends DepFn1[L]
 
   trait LPUnapplyRight {
@@ -53,4 +53,5 @@ object HListUnapply {
   object ~ {
     def unapply[L <: HList, Out <: Option[_]](l: L)(implicit ua: UnapplyLeft.Aux[L, Out]): Out = ua(l)
   }
+*/
 }

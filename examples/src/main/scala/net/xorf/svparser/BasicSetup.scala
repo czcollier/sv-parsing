@@ -61,6 +61,10 @@ object BasicSetup extends {
     .withSource(StringRecordSource(separator=",", enforceFieldCount=true))
 
 
+  val myHRow = DateTime.now :: DateTime.now :: DateTime.now :: Some(2.2) :: 1.1 :: "hello" :: HNil
+  val singleRowParser = parserFor(myHRow).usingFieldParsers(myFieldParsers)
+    .withSource(StringRecordSource(separator=",", enforceFieldCount=true))
+
   //A LineDefinition plus field parsers can parse a CSV line. But the result
   //is the line type.  What we will usually want is to then convert the parsed
   //line to some other data type, such as a LocationSample.  Our DSL allows

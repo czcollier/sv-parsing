@@ -1,6 +1,7 @@
 package net.xorf.svparser
 
 import net.xorf.svparser.ParserDerivation._
+import purecsv.safe.converter.RawFieldsConverter
 import shapeless._
 
 import scala.util.Try
@@ -8,6 +9,8 @@ import scala.util.Try
 object ParserDSL {
 
   def parserFor[LType] = new LineType[LType]
+
+  def parserFor[LType](l: LType) = new LineType[LType]
 
   class LineType[LType] {
     def usingFieldParsers[PType <: HList](fp: PType)(implicit pll: ParserDerivation[PType, LType]) =
@@ -40,7 +43,7 @@ case class StringRecordAdapter(
 
 case class StringRecordSource(separator: String, enforceFieldCount: Boolean = false) extends RecordSource[String] {
   override def provideAdapter[U <: HList](fieldParsers: U): RecordAdapter[String] =
-    new StringRecordAdapter(separator, fieldParsers.runtimeLength, enforceFieldCount)
+    StringRecordAdapter(separator, fieldParsers.runtimeLength, enforceFieldCount)
 }
 
 trait PParser[IType] {
@@ -50,19 +53,19 @@ trait PParser[IType] {
 class SVParser[LType, PType <: HList, IType](fieldParsers: PType, rpp: RecordSource[IType])
     (implicit pll: ParserDerivation[PType, LType]) extends PParser[IType] {
 
-  val rc = pll.derive(fieldParsers)
-  val rp = rpp.provideAdapter(fieldParsers)
+  val rc: RawFieldsConverter[LType] = pll.derive(fieldParsers)
+  val rp: RecordAdapter[IType] = rpp.provideAdapter(fieldParsers)
 
   def parse(rec: IType): Try[LType] = {
     rc.tryFrom(rp.adapt(rec))
   }
 
-  def unParse(r: LType) = rc.to(r).mkString("\t")
-  def withTransform[T](f: (LType => T)) = new MappedSkyParser(this, f)
+  def unParse(r: LType): String = rc.to(r).mkString("\t")
+  def withTransform[T](f: (LType => T)) = new MappedSVParser(this, f)
 }
 
 
-class MappedSkyParser[LType, PType <: HList, IType, OType](
+class MappedSVParser[LType, PType <: HList, IType, OType](
     sp: SVParser[LType, PType, IType],
     transform: (LType => OType)) extends PParser[IType] {
 

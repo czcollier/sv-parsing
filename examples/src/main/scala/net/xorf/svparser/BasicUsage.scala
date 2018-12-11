@@ -18,6 +18,11 @@ object BasicUsage extends App {
   sepLine
   println(parsed)
 
+  val singleRowParsed = singleRowParser.parse(testData)
+
+  sepLine
+  println(parsed)
+
   //parsed lines can always be serialized back to strings
   val unParsed = parsed map myParser.unParse
   println(unParsed)
